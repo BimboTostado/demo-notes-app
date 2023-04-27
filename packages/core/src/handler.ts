@@ -10,13 +10,20 @@ export default function handler(lambdaFunc: AWSLambda){
     try {
       body = await lambdaFunc(event, context);
       statusCode = 200;
+      
     } 
     catch (error: any) {
       //debug.flush(error);
       body = {error: error.message}
       statusCode = 500;
     }
-    return {statusCode, body: JSON.stringify(body)}
+    return {statusCode,
+            body: JSON.stringify(body),
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": true,
+            },
+          }
   }
  return fn;
 }
