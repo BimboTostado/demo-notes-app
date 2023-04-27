@@ -1,21 +1,22 @@
-export default function handler(lambda) {
-  return async function (event, context) {
-    let body, statusCode;
+import { APIGatewayEvent, Context, APIGatewayProxyHandler } from "aws-lambda";
 
+export type AWSLambda = (event: APIGatewayEvent, context?: Context) => Promise<any>;
+
+export default function handler(lambdaFunc: AWSLambda){
+
+  const fn : APIGatewayProxyHandler = async(event, context) =>{
+
+    let body:any, statusCode: number;
     try {
-      // Run the Lambda
-      body = await lambda(event, context);
+      body = await lambdaFunc(event, context);
       statusCode = 200;
-    } catch (e) {
-      console.error(e);
-      body = { error: e.message };
+    } 
+    catch (error: any) {
+      //debug.flush(error);
+      body = {error: error.message}
       statusCode = 500;
     }
-
-    // Return HTTP response
-    return {
-      statusCode,
-      body: JSON.stringify(body),
-    };
-  };
+    return {statusCode, body: JSON.stringify(body)}
+  }
+ return fn;
 }
