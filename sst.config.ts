@@ -11,11 +11,7 @@ export default {
       region: "us-east-1",
     };
   },
-  /*stacks(app) {
-    app.stack(StorageStack).stack(ApiStack);
-  },*/
   stacks(app) {
-    //app.stack(StorageStack).stack(ApiStack).stack(AuthStack);
     app.stack(StorageStack)
     .stack(ApiStack)
     .stack(AuthStack)
