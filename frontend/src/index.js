@@ -10,8 +10,6 @@ import config from './config';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-console.log(JSON.stringify(config));
-
 Amplify.configure({
   Auth: {
     mandatorySignIn: true,
